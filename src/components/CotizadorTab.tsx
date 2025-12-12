@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Save, FileDown, Plus, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Save, FileDown, Plus, X, ChevronDown, ChevronUp, Trash2 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import { User, ProcesoDetalle, Pieza } from '../types';
 import { PRECIOS, PROCESOS } from '../data';
@@ -33,6 +33,9 @@ export default function CotizadorTab({ currentUser }: CotizadorTabProps) {
   const [figuraSeleccionada, setFiguraSeleccionada] = useState<TipoFigura>('RECTANGULO');
   const [camposFigura, setCamposFigura] = useState<Record<string, number>>({});
   const [cantidadPieza, setCantidadPieza] = useState('1');
+  const [procesoSeleccionado, setProcesoSeleccionado] = useState(0);
+  const [cantidadProceso, setCantidadProceso] = useState('1');
+  const [piezaParaProceso, setPiezaParaProceso] = useState<string | null>(null);
 
   const producto = PRECIOS[productoIdx];
 
@@ -82,6 +85,43 @@ export default function CotizadorTab({ currentUser }: CotizadorTabProps) {
 
   const togglePieza = (id: string) => {
     setPiezas(piezas.map(p => p.id === id ? { ...p, expanded: !p.expanded } : p));
+  };
+
+  const agregarProcesoAPieza = (piezaId: string) => {
+    const proceso = PROCESOS[procesoSeleccionado];
+    const cantidad = parseFloat(cantidadProceso) || 1;
+
+    setPiezas(piezas.map(p => {
+      if (p.id === piezaId) {
+        return {
+          ...p,
+          procesos: [
+            ...p.procesos,
+            {
+              PROCESO: proceso.PROCESO,
+              CANTIDAD: cantidad,
+              PRECIO_UNIT: proceso.PRECIO_UNIT,
+              IMPORTE: cantidad * proceso.PRECIO_UNIT,
+            }
+          ]
+        };
+      }
+      return p;
+    }));
+
+    setCantidadProceso('1');
+  };
+
+  const eliminarProceso = (piezaId: string, procesoIdx: number) => {
+    setPiezas(piezas.map(p => {
+      if (p.id === piezaId) {
+        return {
+          ...p,
+          procesos: p.procesos.filter((_, idx) => idx !== procesoIdx)
+        };
+      }
+      return p;
+    }));
   };
 
   const precioM2 = getPrecioUnitario();
@@ -602,10 +642,84 @@ export default function CotizadorTab({ currentUser }: CotizadorTabProps) {
                       </div>
 
                       {pieza.expanded && (
-                        <div className="border-t border-slate-700/50 pt-3 mt-3 text-xs space-y-1">
-                          <div className="flex justify-between">
-                            <span className="text-slate-400">Área total:</span>
-                            <span className="text-slate-200 font-medium">{(pieza.areaM2 * pieza.cantidad).toFixed(3)} m²</span>
+                        <div className="border-t border-slate-700/50 pt-3 mt-3 space-y-3">
+                          <div className="text-xs space-y-1">
+                            <div className="flex justify-between">
+                              <span className="text-slate-400">Área total:</span>
+                              <span className="text-slate-200 font-medium">{(pieza.areaM2 * pieza.cantidad).toFixed(3)} m²</span>
+                            </div>
+                          </div>
+
+                          <div className="border-t border-slate-700/30 pt-3">
+                            <div className="text-xs font-semibold text-slate-300 mb-2">Procesos</div>
+                            {pieza.procesos.length > 0 ? (
+                              <div className="space-y-2 mb-3">
+                                {pieza.procesos.map((proc, idx) => (
+                                  <div key={idx} className="flex justify-between items-center bg-slate-900/50 rounded p-2 text-xs">
+                                    <div>
+                                      <p className="text-slate-200">{proc.PROCESO}</p>
+                                      <p className="text-slate-400">x{proc.CANTIDAD}</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-cyan-400 font-medium">${proc.IMPORTE.toFixed(2)}</span>
+                                      <button
+                                        onClick={() => eliminarProceso(pieza.id, idx)}
+                                        className="p-1 hover:bg-red-500/20 rounded text-red-400 transition-all"
+                                      >
+                                        <Trash2 className="w-3 h-3" />
+                                      </button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="text-slate-500 text-xs mb-3 italic">Sin procesos agregados</p>
+                            )}
+
+                            {piezaParaProceso === pieza.id ? (
+                              <div className="bg-slate-900/50 border border-slate-700/50 rounded p-2 space-y-2">
+                                <select
+                                  value={procesoSeleccionado}
+                                  onChange={(e) => setProcesoSeleccionado(parseInt(e.target.value))}
+                                  className="w-full px-2 py-1.5 bg-slate-900/50 border border-slate-700 rounded text-slate-100 text-xs focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+                                >
+                                  {PROCESOS.map((p, idx) => (
+                                    <option key={idx} value={idx}>{p.PROCESO}</option>
+                                  ))}
+                                </select>
+
+                                <input
+                                  type="number"
+                                  value={cantidadProceso}
+                                  onChange={(e) => setCantidadProceso(e.target.value)}
+                                  min="1"
+                                  className="w-full px-2 py-1.5 bg-slate-900/50 border border-slate-700 rounded text-slate-100 text-xs focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+                                  placeholder="Cantidad"
+                                />
+
+                                <div className="flex gap-2">
+                                  <button
+                                    onClick={() => agregarProcesoAPieza(pieza.id)}
+                                    className="flex-1 px-2 py-1.5 bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 text-xs font-medium rounded hover:bg-cyan-500/30 transition-all"
+                                  >
+                                    Agregar
+                                  </button>
+                                  <button
+                                    onClick={() => setPiezaParaProceso(null)}
+                                    className="flex-1 px-2 py-1.5 bg-slate-800/50 border border-slate-700 text-slate-400 text-xs font-medium rounded hover:bg-slate-700/50 transition-all"
+                                  >
+                                    Cancelar
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => setPiezaParaProceso(pieza.id)}
+                                className="w-full px-2 py-1.5 bg-slate-800/50 border border-slate-700 text-slate-400 text-xs font-medium rounded hover:bg-slate-700/50 transition-all"
+                              >
+                                + Agregar proceso
+                              </button>
+                            )}
                           </div>
                         </div>
                       )}
