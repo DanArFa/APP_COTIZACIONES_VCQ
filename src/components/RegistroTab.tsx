@@ -5,8 +5,9 @@ import { getRegistroCotizaciones, RegistroCotizacion } from '../services/registr
 export default function RegistroTab() {
   const [registros, setRegistros] = useState<RegistroCotizacion[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAllHistory, setShowAllHistory] = useState(true);
-  const [filterDate, setFilterDate] = useState<string>('');
+  const [filterDateFrom, setFilterDateFrom] = useState<string>('');
+  const [filterDateTo, setFilterDateTo] = useState<string>('');
+  const [showDateFilter, setShowDateFilter] = useState(false);
 
   useEffect(() => {
     loadRegistros();
@@ -21,11 +22,19 @@ export default function RegistroTab() {
 
   let sortedRegistros = [...registros].sort((a, b) => b.ID_COT - a.ID_COT);
 
-  if (!showAllHistory && filterDate) {
-    sortedRegistros = sortedRegistros.filter(r => r.Fecha === filterDate);
+  if (filterDateFrom || filterDateTo) {
+    sortedRegistros = sortedRegistros.filter(r => {
+      const regDate = r.Fecha;
+      if (filterDateFrom && filterDateTo) {
+        return regDate >= filterDateFrom && regDate <= filterDateTo;
+      } else if (filterDateFrom) {
+        return regDate >= filterDateFrom;
+      } else if (filterDateTo) {
+        return regDate <= filterDateTo;
+      }
+      return true;
+    });
   }
-
-  const uniqueDates = [...new Set(registros.map(r => r.Fecha))].sort().reverse();
 
   const handleExportCSV = () => {
     if (sortedRegistros.length === 0) {
@@ -90,44 +99,76 @@ export default function RegistroTab() {
         </button>
       </div>
 
-      <div className="mb-6 bg-slate-800/30 rounded-xl p-4 border border-slate-700/30">
+      <div className="mb-6 bg-gradient-to-br from-slate-800/40 to-slate-800/20 rounded-xl p-5 border border-slate-700/40 shadow-lg">
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-3">
-            <Calendar className="w-5 h-5 text-cyan-400" />
-            <span className="text-sm font-medium text-slate-300">Filtrar por fecha</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-cyan-500/10 rounded-lg border border-cyan-500/30">
+                <Calendar className="w-5 h-5 text-cyan-400" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-slate-200">Filtrar por fecha</h3>
+                <p className="text-xs text-slate-500">Selecciona un rango de fechas</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowDateFilter(!showDateFilter)}
+              className="px-4 py-2 text-sm font-medium bg-cyan-500/15 border border-cyan-500/50 text-cyan-300 rounded-lg hover:bg-cyan-500/25 transition-all"
+            >
+              {showDateFilter ? 'Ocultar filtro' : 'Mostrar filtro'}
+            </button>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => {
-                setShowAllHistory(true);
-                setFilterDate('');
-              }}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                showAllHistory
-                  ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-300'
-                  : 'bg-slate-800/50 border border-slate-600/50 text-slate-400 hover:bg-slate-700/50'
-              }`}
-            >
-              Todo el historial
-            </button>
-            {uniqueDates.map(date => (
-              <button
-                key={date}
-                onClick={() => {
-                  setShowAllHistory(false);
-                  setFilterDate(date);
-                }}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all whitespace-nowrap ${
-                  !showAllHistory && filterDate === date
-                    ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-300'
-                    : 'bg-slate-800/50 border border-slate-600/50 text-slate-400 hover:bg-slate-700/50'
-                }`}
-              >
-                {date}
-              </button>
-            ))}
-          </div>
+          {showDateFilter && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-700/30">
+              <div>
+                <label className="block text-xs font-medium text-slate-400 mb-2">
+                  Fecha desde
+                </label>
+                <input
+                  type="date"
+                  value={filterDateFrom}
+                  onChange={(e) => setFilterDateFrom(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-400 mb-2">
+                  Fecha hasta
+                </label>
+                <input
+                  type="date"
+                  value={filterDateTo}
+                  onChange={(e) => setFilterDateTo(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                />
+              </div>
+              <div className="flex items-end">
+                <button
+                  onClick={() => {
+                    setFilterDateFrom('');
+                    setFilterDateTo('');
+                  }}
+                  className="w-full px-4 py-2 text-sm font-medium bg-slate-800/50 border border-slate-600/50 text-slate-300 rounded-lg hover:bg-slate-700/50 hover:border-slate-500/50 transition-all"
+                >
+                  Limpiar filtro
+                </button>
+              </div>
+            </div>
+          )}
+
+          {(filterDateFrom || filterDateTo) && (
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-slate-400">Mostrando:</span>
+              <span className="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 rounded-full font-medium">
+                {filterDateFrom && filterDateTo
+                  ? `${filterDateFrom} hasta ${filterDateTo}`
+                  : filterDateFrom
+                  ? `Desde ${filterDateFrom}`
+                  : `Hasta ${filterDateTo}`}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
