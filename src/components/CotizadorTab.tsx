@@ -356,24 +356,24 @@ export default function CotizadorTab({ currentUser }: CotizadorTabProps) {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-2.5 space-y-6">
+      <div className="grid lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1 space-y-6">
           <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl p-6 space-y-4">
             <h3 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
               Información General
             </h3>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Cliente
                 </label>
                 <div className="space-y-2">
-                  <div className="flex gap-2 mb-2">
+                  <div className="flex gap-2">
                     <button
                       onClick={() => setModoCliente('seleccionar')}
-                      className={`flex-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                      className={`flex-1 px-3 py-2 text-xs font-medium rounded-lg transition-all ${
                         modoCliente === 'seleccionar'
                           ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-300'
                           : 'bg-slate-800/50 border border-slate-700 text-slate-400 hover:bg-slate-700/50'
@@ -383,7 +383,7 @@ export default function CotizadorTab({ currentUser }: CotizadorTabProps) {
                     </button>
                     <button
                       onClick={() => setModoCliente('nuevo')}
-                      className={`flex-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                      className={`flex-1 px-3 py-2 text-xs font-medium rounded-lg transition-all ${
                         modoCliente === 'nuevo'
                           ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-300'
                           : 'bg-slate-800/50 border border-slate-700 text-slate-400 hover:bg-slate-700/50'
@@ -435,54 +435,52 @@ export default function CotizadorTab({ currentUser }: CotizadorTabProps) {
                   ))}
                 </select>
               </div>
-            </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Tipo de Precio
-                </label>
-                <select
-                  value={tipoPrecio}
-                  onChange={(e) => setTipoPrecio(e.target.value as TipoPrecio)}
-                  className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
-                >
-                  <option value="INSTALADOR">Instalador</option>
-                  <option value="PUBLICO">Público</option>
-                  <option value="CORTE">Corte</option>
-                </select>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Tipo de Precio
+                  </label>
+                  <select
+                    value={tipoPrecio}
+                    onChange={(e) => setTipoPrecio(e.target.value as TipoPrecio)}
+                    className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                  >
+                    <option value="INSTALADOR">Instalador</option>
+                    <option value="PUBLICO">Público</option>
+                    <option value="CORTE">Corte</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Precio m²
+                  </label>
+                  <input
+                    type="text"
+                    value={`$${precioM2.toFixed(2)}`}
+                    readOnly
+                    className="w-full px-4 py-2.5 bg-slate-900/80 border border-slate-700 rounded-lg text-cyan-400 font-semibold cursor-not-allowed"
+                  />
+                </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Precio m²
+                  Observaciones
                 </label>
-                <input
-                  type="text"
-                  value={`$${precioM2.toFixed(2)}`}
-                  readOnly
-                  className="w-full px-4 py-2.5 bg-slate-900/80 border border-slate-700 rounded-lg text-cyan-400 font-semibold cursor-not-allowed"
+                <textarea
+                  value={observaciones}
+                  onChange={(e) => setObservaciones(e.target.value)}
+                  placeholder="Notas especiales..."
+                  rows={3}
+                  className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all resize-none"
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Observaciones
-              </label>
-              <textarea
-                value={observaciones}
-                onChange={(e) => setObservaciones(e.target.value)}
-                placeholder="Notas especiales..."
-                rows={2}
-                className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all resize-none"
-              />
-            </div>
-
-            <div className="flex gap-2 pt-2">
               <button
                 onClick={() => setAplicarIVA(!aplicarIVA)}
-                className={`flex-1 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${
+                className={`w-full px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${
                   aplicarIVA
                     ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-300'
                     : 'bg-slate-800/50 border border-slate-700 text-slate-400 hover:bg-slate-700/50'
@@ -564,95 +562,97 @@ export default function CotizadorTab({ currentUser }: CotizadorTabProps) {
           </div>
         </div>
 
-        <div className="lg:col-span-1.5 space-y-6">
-          <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl p-6">
-            <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
-              Piezas Agregadas ({piezas.length})
-            </h3>
+        <div className="lg:col-span-2 space-y-6">
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl p-6">
+              <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
+                Piezas Agregadas ({piezas.length})
+              </h3>
 
-            {piezas.length === 0 ? (
-              <p className="text-sm text-slate-500 italic">No hay piezas agregadas</p>
-            ) : (
-              <div className="space-y-2 max-h-80 overflow-y-auto">
-                {piezas.map(pieza => (
-                  <div key={pieza.id} className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
-                    <div className="flex items-start justify-between gap-3 mb-2">
-                      <div className="flex-1">
+              {piezas.length === 0 ? (
+                <p className="text-sm text-slate-500 italic">No hay piezas agregadas</p>
+              ) : (
+                <div className="space-y-2 max-h-80 overflow-y-auto">
+                  {piezas.map(pieza => (
+                    <div key={pieza.id} className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <div className="flex-1">
+                          <button
+                            onClick={() => togglePieza(pieza.id)}
+                            className="flex items-center justify-between w-full text-left hover:text-cyan-400 transition-colors"
+                          >
+                            <div>
+                              <p className="text-sm font-semibold text-slate-200">{pieza.figura}</p>
+                              <p className="text-xs text-slate-400">x{pieza.cantidad} piezas</p>
+                            </div>
+                            {pieza.expanded ? (
+                              <ChevronUp className="w-4 h-4" />
+                            ) : (
+                              <ChevronDown className="w-4 h-4" />
+                            )}
+                          </button>
+                        </div>
                         <button
-                          onClick={() => togglePieza(pieza.id)}
-                          className="flex items-center justify-between w-full text-left hover:text-cyan-400 transition-colors"
+                          onClick={() => eliminarPieza(pieza.id)}
+                          className="p-1.5 hover:bg-red-500/20 rounded-lg text-red-400 transition-all"
                         >
-                          <div>
-                            <p className="text-sm font-semibold text-slate-200">{pieza.figura}</p>
-                            <p className="text-xs text-slate-400">x{pieza.cantidad} piezas</p>
-                          </div>
-                          {pieza.expanded ? (
-                            <ChevronUp className="w-4 h-4" />
-                          ) : (
-                            <ChevronDown className="w-4 h-4" />
-                          )}
+                          <X className="w-4 h-4" />
                         </button>
                       </div>
-                      <button
-                        onClick={() => eliminarPieza(pieza.id)}
-                        className="p-1.5 hover:bg-red-500/20 rounded-lg text-red-400 transition-all"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
 
-                    {pieza.expanded && (
-                      <div className="border-t border-slate-700/50 pt-3 mt-3 text-xs space-y-1">
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">Área total:</span>
-                          <span className="text-slate-200 font-medium">{(pieza.areaM2 * pieza.cantidad).toFixed(3)} m²</span>
+                      {pieza.expanded && (
+                        <div className="border-t border-slate-700/50 pt-3 mt-3 text-xs space-y-1">
+                          <div className="flex justify-between">
+                            <span className="text-slate-400">Área total:</span>
+                            <span className="text-slate-200 font-medium">{(pieza.areaM2 * pieza.cantidad).toFixed(3)} m²</span>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 border border-slate-700/50 rounded-xl p-6 space-y-4">
-            <h3 className="text-sm font-semibold text-slate-300 mb-4">Resumen Totales</h3>
-
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-slate-400">Área total (m²)</span>
-                <span className="text-slate-200 font-medium">{totalAreaM2.toFixed(3)}</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-slate-400">Subtotal vidrio</span>
-                <span className="text-slate-200 font-medium">${subtotalVidrio.toFixed(2)}</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-slate-400">Procesos</span>
-                <span className="text-slate-200 font-medium">${totalProcesos.toFixed(2)}</span>
-              </div>
-
-              <div className="border-t border-slate-700/50 pt-3">
-                <div className="flex justify-between">
-                  <span className="text-slate-300 font-medium">Subtotal</span>
-                  <span className="text-slate-200 font-semibold">${subtotal.toFixed(2)}</span>
-                </div>
-              </div>
-
-              {aplicarIVA && (
-                <div className="flex justify-between">
-                  <span className="text-slate-400">IVA 16%</span>
-                  <span className="text-slate-200 font-medium">${iva.toFixed(2)}</span>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
+            </div>
 
-              <div className="border-t border-slate-700/50 pt-3 bg-slate-900/30 -mx-6 -mb-6 px-6 py-4 rounded-b-lg">
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-200 font-semibold">Total</span>
-                  <span className="text-cyan-400 text-xl font-bold">${total.toFixed(2)}</span>
+            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 border border-slate-700/50 rounded-xl p-6 space-y-4">
+              <h3 className="text-sm font-semibold text-slate-300 mb-4">Resumen Totales</h3>
+
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Área total (m²)</span>
+                  <span className="text-slate-200 font-medium">{totalAreaM2.toFixed(3)}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Subtotal vidrio</span>
+                  <span className="text-slate-200 font-medium">${subtotalVidrio.toFixed(2)}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Procesos</span>
+                  <span className="text-slate-200 font-medium">${totalProcesos.toFixed(2)}</span>
+                </div>
+
+                <div className="border-t border-slate-700/50 pt-3">
+                  <div className="flex justify-between">
+                    <span className="text-slate-300 font-medium">Subtotal</span>
+                    <span className="text-slate-200 font-semibold">${subtotal.toFixed(2)}</span>
+                  </div>
+                </div>
+
+                {aplicarIVA && (
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">IVA 16%</span>
+                    <span className="text-slate-200 font-medium">${iva.toFixed(2)}</span>
+                  </div>
+                )}
+
+                <div className="border-t border-slate-700/50 pt-3 bg-slate-900/30 -mx-6 -mb-6 px-6 py-4 rounded-b-lg">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-200 font-semibold">Total</span>
+                    <span className="text-cyan-400 text-xl font-bold">${total.toFixed(2)}</span>
+                  </div>
                 </div>
               </div>
             </div>
