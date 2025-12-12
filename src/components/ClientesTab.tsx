@@ -60,7 +60,6 @@ export default function ClientesTab() {
     <div className="space-y-8">
       <div>
         <h2 className="text-2xl font-bold text-slate-100 mb-1">Gestión de Clientes</h2>
-        <p className="text-sm text-slate-400">Datos sincronizados con Supabase</p>
       </div>
 
       <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 border border-slate-700/50 rounded-xl p-8 shadow-xl">
