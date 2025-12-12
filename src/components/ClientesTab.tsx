@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { UserPlus } from 'lucide-react';
-import { getClientes, createCliente, getNextClienteId } from '../services/clientes';
+import { UserPlus, Edit2, Trash2, X } from 'lucide-react';
+import { getClientes, createCliente, getNextClienteId, updateCliente, deleteCliente } from '../services/clientes';
 import { Cliente } from '../types';
 
 export default function ClientesTab() {
@@ -10,6 +10,11 @@ export default function ClientesTab() {
   const [telefono, setTelefono] = useState('');
   const [email, setEmail] = useState('');
   const [rfc, setRfc] = useState('');
+  const [editingCliente, setEditingCliente] = useState<Cliente | null>(null);
+  const [editNombre, setEditNombre] = useState('');
+  const [editTelefono, setEditTelefono] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const [editRfc, setEditRfc] = useState('');
 
   useEffect(() => {
     loadClientes();
@@ -49,6 +54,52 @@ export default function ClientesTab() {
       alert('Cliente guardado exitosamente');
     } else {
       alert('Error al guardar el cliente');
+    }
+  };
+
+  const handleEditarCliente = (cliente: Cliente) => {
+    setEditingCliente(cliente);
+    setEditNombre(cliente.NOMBRE);
+    setEditTelefono(cliente.TELEFONO);
+    setEditEmail(cliente.CORREO);
+    setEditRfc(cliente.RFC);
+  };
+
+  const handleGuardarEdicion = async () => {
+    if (!editingCliente) return;
+
+    if (!editNombre.trim()) {
+      alert('El nombre del cliente es obligatorio');
+      return;
+    }
+
+    const result = await updateCliente(editingCliente.ID_CLIENTE, {
+      NOMBRE: editNombre.trim(),
+      TELEFONO: editTelefono.trim(),
+      CORREO: editEmail.trim(),
+      RFC: editRfc.trim(),
+    });
+
+    if (result) {
+      await loadClientes();
+      setEditingCliente(null);
+      alert('Cliente actualizado exitosamente');
+    } else {
+      alert('Error al actualizar el cliente');
+    }
+  };
+
+  const handleEliminarCliente = async (id: string, nombre: string) => {
+    if (!window.confirm(`¿Deseas eliminar el cliente "${nombre}"? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+
+    const result = await deleteCliente(id);
+    if (result) {
+      await loadClientes();
+      alert('Cliente eliminado exitosamente');
+    } else {
+      alert('Error al eliminar el cliente');
     }
   };
 
@@ -154,12 +205,13 @@ export default function ClientesTab() {
                   <th className="text-left px-6 py-3 text-slate-400 font-medium text-xs uppercase tracking-wider">Teléfono</th>
                   <th className="text-left px-6 py-3 text-slate-400 font-medium text-xs uppercase tracking-wider">Email</th>
                   <th className="text-left px-6 py-3 text-slate-400 font-medium text-xs uppercase tracking-wider">RFC</th>
+                  <th className="text-center px-6 py-3 text-slate-400 font-medium text-xs uppercase tracking-wider">Acciones</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/30">
                 {clientes.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center">
+                    <td colSpan={6} className="px-6 py-12 text-center">
                       <div className="flex flex-col items-center gap-2">
                         <div className="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center">
                           <UserPlus className="w-6 h-6 text-slate-600" />
@@ -183,6 +235,24 @@ export default function ClientesTab() {
                         <td className="px-6 py-4 text-slate-300">{cliente.TELEFONO || '-'}</td>
                         <td className="px-6 py-4 text-slate-300">{cliente.CORREO || '-'}</td>
                         <td className="px-6 py-4 text-slate-300">{cliente.RFC || '-'}</td>
+                        <td className="px-6 py-4 text-center">
+                          <div className="flex items-center justify-center gap-2">
+                            <button
+                              onClick={() => handleEditarCliente(cliente)}
+                              className="p-2 text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-lg transition-colors"
+                              title="Editar cliente"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleEliminarCliente(cliente.ID_CLIENTE, cliente.NOMBRE)}
+                              className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                              title="Eliminar cliente"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
                       </tr>
                     ))
                 )}
@@ -191,6 +261,93 @@ export default function ClientesTab() {
           </div>
         </div>
       </div>
+
+      {editingCliente && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl max-w-2xl w-full">
+            <div className="flex items-center justify-between p-6 border-b border-slate-700">
+              <h3 className="text-lg font-semibold text-slate-200">Editar Cliente</h3>
+              <button
+                onClick={() => setEditingCliente(null)}
+                className="p-1.5 hover:bg-slate-800 rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5 text-slate-400" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Nombre <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={editNombre}
+                    onChange={(e) => setEditNombre(e.target.value)}
+                    placeholder="Nombre completo o empresa"
+                    className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Teléfono
+                  </label>
+                  <input
+                    type="text"
+                    value={editTelefono}
+                    onChange={(e) => setEditTelefono(e.target.value)}
+                    placeholder="555-1234-5678"
+                    className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={editEmail}
+                    onChange={(e) => setEditEmail(e.target.value)}
+                    placeholder="cliente@example.com"
+                    className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    RFC
+                  </label>
+                  <input
+                    type="text"
+                    value={editRfc}
+                    onChange={(e) => setEditRfc(e.target.value.toUpperCase())}
+                    placeholder="ABC123456DEF"
+                    className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3 p-6 border-t border-slate-700">
+              <button
+                onClick={() => setEditingCliente(null)}
+                className="flex-1 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium rounded-lg transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleGuardarEdicion}
+                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-green-500 hover:from-cyan-400 hover:to-green-400 text-slate-950 font-medium rounded-lg transition-all duration-200"
+              >
+                Guardar Cambios
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
