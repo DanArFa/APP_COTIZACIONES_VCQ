@@ -23,8 +23,7 @@ export default function PreciosTab() {
 
   return (
     <div>
-      <h2 className="text-xl font-bold text-slate-100 mb-2">Lista de precios</h2>
-      <p className="text-sm text-slate-400 mb-6">Datos sincronizados con Supabase</p>
+      <h2 className="text-xl font-bold text-slate-100 mb-6">Lista de precios</h2>
 
       <div className="overflow-x-auto">
         <div className="max-h-[500px] overflow-y-auto rounded-xl border border-slate-700/50">
