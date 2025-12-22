@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { Users, ShieldCheck, DollarSign } from 'lucide-react';
 import { LayoutAdmin } from '../../layouts/LayoutAdmin';
+import TabNavigation from '../../components/TabNavigation';
 import ClientesTab from '../../components/ClientesTab';
 import UsuariosTab from '../../components/UsuariosTab';
 import PreciosTab from '../../components/PreciosTab';
@@ -16,38 +18,31 @@ export function AdminCatalogo() {
   }
 
   const tabs = [
-    { id: 'clientes' as CatalogoTab, label: 'Clientes' },
-    { id: 'usuarios' as CatalogoTab, label: 'Usuarios' },
-    { id: 'precios' as CatalogoTab, label: 'Precios' },
+    { id: 'clientes' as CatalogoTab, label: 'Clientes', icon: Users, description: 'Gestionar clientes registrados' },
+    { id: 'usuarios' as CatalogoTab, label: 'Usuarios', icon: ShieldCheck, description: 'Gestionar usuarios del sistema' },
+    { id: 'precios' as CatalogoTab, label: 'Precios', icon: DollarSign, description: 'Configurar precios de productos' },
   ];
 
   return (
     <LayoutAdmin activeTab="catalogo">
-      <div className="p-6 space-y-6">
-        <div>
-          <h2 className="text-3xl font-bold text-slate-100">Catálogos</h2>
-          <p className="text-slate-400 mt-1">Gestión de datos maestros</p>
+      <div className="p-6 lg:p-8 space-y-8">
+        {/* Header */}
+        <div className="border-b border-slate-700/50 pb-6">
+          <h1 className="text-4xl font-bold text-slate-100 mb-2">Catálogos Maestros</h1>
+          <p className="text-slate-400 max-w-2xl">Gestión centralizada de datos maestros: clientes, usuarios y precios del sistema</p>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex gap-2">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                activeTab === tab.id
-                  ? 'bg-cyan-500/15 border border-cyan-500/50 text-cyan-300'
-                  : 'bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-slate-300'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        {/* Tabs Navigation */}
+        <div>
+          <TabNavigation
+            tabs={tabs}
+            activeTab={activeTab}
+            onChange={(tabId) => setActiveTab(tabId as CatalogoTab)}
+          />
         </div>
 
         {/* Tab Content */}
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-6 border border-slate-700/50">
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-6 lg:p-8 border border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300">
           {activeTab === 'clientes' && <ClientesTab />}
           {activeTab === 'usuarios' && <UsuariosTab />}
           {activeTab === 'precios' && <PreciosTab currentUser={user} />}

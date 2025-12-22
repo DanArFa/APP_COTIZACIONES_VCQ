@@ -50,27 +50,36 @@ export function ClienteNuevoPedido() {
 
   return (
     <LayoutCliente activeTab="nuevo">
-      <div className="max-w-6xl mx-auto space-y-6">
-        <button
-          onClick={() => navigate('/app/cliente')}
-          className="flex items-center gap-2 px-4 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800/50 rounded-lg transition-all mb-2"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Regresar
-        </button>
-
-        <div>
-          <h2 className="text-3xl font-bold text-slate-100">Crear Nuevo Pedido</h2>
-          <p className="text-slate-400 mt-1">Crea tu pedido seleccionando y personalizando figuras de vidrio</p>
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Header with Back Button */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <button
+                onClick={() => navigate('/app/cliente')}
+                className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors text-slate-400 hover:text-slate-300 group"
+                title="Volver a Mis Pedidos"
+              >
+                <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+              </button>
+              <h1 className="text-4xl font-bold text-slate-100">Nuevo Pedido</h1>
+            </div>
+            <p className="text-slate-400 ml-11">Selecciona y personaliza tus figuras de vidrio</p>
+          </div>
         </div>
 
         {submitted && (
-          <div className="bg-green-500/15 border border-green-500/50 text-green-300 rounded-xl p-4 flex items-start gap-3">
-            <div className="flex-1">
-              <p className="font-semibold">Formulario pendiente de conectar</p>
-              <p className="text-sm mt-1">El sistema aún no tiene endpoint para guardar pedidos. Ponte en contacto con soporte.</p>
+          <div className="bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border border-amber-500/50 text-amber-200 rounded-xl p-4 flex items-start gap-3 shadow-lg animate-slideDown">
+            <div className="flex-shrink-0 mt-0.5">
+              <svg className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
             </div>
-            <button onClick={() => setSubmitted(false)} className="text-green-300 hover:text-green-200">
+            <div className="flex-1">
+              <p className="font-semibold">Sistema en desarrollo</p>
+              <p className="text-sm mt-1">El almacenamiento de pedidos está siendo completado. Por ahora puedes ver las figuras disponibles.</p>
+            </div>
+            <button onClick={() => setSubmitted(false)} className="text-amber-300 hover:text-amber-200 flex-shrink-0">
               <X className="w-5 h-5" />
             </button>
           </div>
