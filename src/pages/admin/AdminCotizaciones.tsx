@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ShieldCheck, LogOut, Calculator, Users, FileText, ClipboardList, DollarSign, Wrench } from 'lucide-react';
+import { LogOut, Calculator, FileText, ClipboardList, DollarSign, Wrench } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import NavigationBar from '../../components/NavigationBar';
@@ -8,11 +8,9 @@ import PreciosTab from '../../components/PreciosTab';
 import ProcesosTab from '../../components/ProcesosTab';
 import CotizadorTab from '../../components/CotizadorTab';
 import HistorialTab from '../../components/HistorialTab';
-import ClientesTab from '../../components/ClientesTab';
 import RegistroTab from '../../components/RegistroTab';
-import UsuariosTab from '../../components/UsuariosTab';
 
-type TabType = 'precios' | 'procesos' | 'cotizador' | 'historial' | 'clientes' | 'registro' | 'usuarios';
+type TabType = 'precios' | 'procesos' | 'cotizador' | 'historial' | 'registro';
 
 export function AdminCotizaciones() {
   const navigate = useNavigate();
@@ -44,9 +42,7 @@ export function AdminCotizaciones() {
     { id: 'precios' as TabType, label: 'Precios', icon: DollarSign, description: 'Gestionar precios', adminOnly: false },
     { id: 'procesos' as TabType, label: 'Procesos', icon: Wrench, description: 'Configurar procesos', adminOnly: false },
     ...(isAdmin ? [
-      { id: 'clientes' as TabType, label: 'Clientes', icon: Users, description: 'Gestionar clientes', adminOnly: true },
       { id: 'registro' as TabType, label: 'Registro', icon: ClipboardList, description: 'Registro de operaciones', adminOnly: true },
-      { id: 'usuarios' as TabType, label: 'Usuarios', icon: ShieldCheck, description: 'Gestionar usuarios', adminOnly: true },
     ] : []),
   ];
 
@@ -93,9 +89,7 @@ export function AdminCotizaciones() {
               {activeTab === 'procesos' && <ProcesosTab />}
               {activeTab === 'cotizador' && <CotizadorTab currentUser={user} />}
               {activeTab === 'historial' && <HistorialTab currentUser={user} />}
-              {activeTab === 'clientes' && <ClientesTab />}
               {activeTab === 'registro' && <RegistroTab />}
-              {activeTab === 'usuarios' && <UsuariosTab />}
             </div>
           </div>
         </div>

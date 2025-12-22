@@ -1,8 +1,9 @@
 import { LayoutAdmin } from '../../layouts/LayoutAdmin';
-import { Clock, Package, Truck, Calculator, TrendingUp, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Clock, Package, Truck, Calculator, TrendingUp, AlertCircle, CheckCircle2, Users } from 'lucide-react';
 import InfoCard from '../../components/InfoCard';
 import EmptyState from '../../components/EmptyState';
 import UsuariosTab from '../../components/UsuariosTab';
+import ClientesTab from '../../components/ClientesTab';
 
 export function AdminDashboard() {
   return (
@@ -123,9 +124,49 @@ export function AdminDashboard() {
           </div>
         </div>
 
-        {/* Usuarios */}
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50 p-6 shadow-xl">
-          <UsuariosTab />
+        {/* Catálogos */}
+        <div className="border-t border-slate-700/50 pt-8">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-slate-100 flex items-center gap-3 mb-2">
+              <div className="p-2 rounded-lg bg-cyan-500/10">
+                <Users className="w-6 h-6 text-cyan-400" />
+              </div>
+              Catálogos
+            </h2>
+            <p className="text-slate-400">Gestión de datos maestros: clientes y usuarios</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Clientes */}
+            <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+              <div className="p-6 border-b border-slate-700/50">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-green-500/10">
+                    <Users className="w-5 h-5 text-green-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-100">Clientes</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <ClientesTab />
+              </div>
+            </div>
+
+            {/* Usuarios */}
+            <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+              <div className="p-6 border-b border-slate-700/50">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-blue-500/10">
+                    <Users className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-100">Usuarios del Sistema</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <UsuariosTab />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </LayoutAdmin>
