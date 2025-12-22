@@ -82,3 +82,19 @@ export async function loginUsuario(usuario: string, contrasena: string): Promise
 
   return data;
 }
+
+export async function verificarContrasena(idUsuario: number, contrasena: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from('Usuarios')
+    .select('CONTRASENA')
+    .eq('ID_USUARIO', idUsuario)
+    .eq('CONTRASENA', contrasena)
+    .maybeSingle();
+
+  if (error) {
+    console.error('Error verificando contraseña:', error);
+    return false;
+  }
+
+  return data !== null;
+}

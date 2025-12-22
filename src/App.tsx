@@ -116,7 +116,7 @@ function App() {
 
         {/* Tab Content */}
         <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-6 border border-slate-700/50 shadow-2xl backdrop-blur-sm">
-          {activeTab === 'precios' && <PreciosTab />}
+          {activeTab === 'precios' && <PreciosTab currentUser={currentUser} />}
           {activeTab === 'procesos' && <ProcesosTab />}
           {activeTab === 'cotizador' && <CotizadorTab currentUser={currentUser} />}
           {activeTab === 'historial' && <HistorialTab currentUser={currentUser} />}
