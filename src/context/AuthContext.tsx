@@ -6,7 +6,7 @@ export interface AuthContextType {
   user: User | null;
   loading: boolean;
   isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<boolean>;
+  login: (username: string, password: string) => Promise<User | null>;
   logout: () => void;
   getRolType: () => 'cliente' | 'admin' | 'unknown';
 }
@@ -35,14 +35,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(false);
   }, []);
 
-  const login = async (username: string, password: string): Promise<boolean> => {
+  const login = async (username: string, password: string): Promise<User | null> => {
     const loginUser = await loginUsuario(username, password);
     if (loginUser) {
       setUser(loginUser);
       localStorage.setItem('currentUser', JSON.stringify(loginUser));
-      return true;
+      return loginUser;
     }
-    return false;
+    return null;
   };
 
   const logout = () => {

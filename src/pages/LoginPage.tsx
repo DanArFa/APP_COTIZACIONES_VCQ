@@ -4,16 +4,16 @@ import LoginView from '../components/LoginView';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { login, getRolType } = useAuth();
+  const { login } = useAuth();
 
   const handleLogin = async (username: string, password: string): Promise<boolean> => {
-    const success = await login(username, password);
-    if (success) {
-      const role = getRolType();
-      const path = role === 'admin' ? '/app/admin' : '/app/cliente';
+    const user = await login(username, password);
+    if (user) {
+      const path = user.ROL === 'ADMIN' ? '/app/admin' : '/app/cliente';
       navigate(path, { replace: true });
+      return true;
     }
-    return success;
+    return false;
   };
 
   return (

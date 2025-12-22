@@ -26,20 +26,21 @@ function App() {
           {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
 
-          {/* Protected Routes */}
-          <Route path="/app/cliente" element={<ProtectedRoute><ClienteHome /></ProtectedRoute>} />
-          <Route path="/app/cliente/nuevo-pedido" element={<ProtectedRoute><ClienteNuevoPedido /></ProtectedRoute>} />
-          <Route path="/app/cliente/documentos" element={<ProtectedRoute><ClienteDocumentos /></ProtectedRoute>} />
+          {/* Protected Routes - Cliente */}
+          <Route path="/app/cliente" element={<ProtectedRoute requiredRole="cliente"><ClienteHome /></ProtectedRoute>} />
+          <Route path="/app/cliente/nuevo-pedido" element={<ProtectedRoute requiredRole="cliente"><ClienteNuevoPedido /></ProtectedRoute>} />
+          <Route path="/app/cliente/documentos" element={<ProtectedRoute requiredRole="cliente"><ClienteDocumentos /></ProtectedRoute>} />
 
-          <Route path="/app/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-          <Route path="/app/admin/cotizaciones" element={<ProtectedRoute><AdminCotizaciones /></ProtectedRoute>} />
-          <Route path="/app/admin/figuras" element={<ProtectedRoute><AdminFiguras /></ProtectedRoute>} />
-          <Route path="/app/admin/pedidos" element={<ProtectedRoute><AdminPedidos /></ProtectedRoute>} />
-          <Route path="/app/admin/produccion" element={<ProtectedRoute><AdminProduccion /></ProtectedRoute>} />
-          <Route path="/app/admin/entregas" element={<ProtectedRoute><AdminEntregas /></ProtectedRoute>} />
-          <Route path="/app/admin/stock" element={<ProtectedRoute><AdminStock /></ProtectedRoute>} />
-          <Route path="/app/admin/facturacion" element={<ProtectedRoute><AdminFacturacion /></ProtectedRoute>} />
-          <Route path="/app/admin/catalogo" element={<ProtectedRoute><AdminCatalogo /></ProtectedRoute>} />
+          {/* Protected Routes - Admin */}
+          <Route path="/app/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/app/admin/cotizaciones" element={<ProtectedRoute requiredRole="admin"><AdminCotizaciones /></ProtectedRoute>} />
+          <Route path="/app/admin/figuras" element={<ProtectedRoute requiredRole="admin"><AdminFiguras /></ProtectedRoute>} />
+          <Route path="/app/admin/pedidos" element={<ProtectedRoute requiredRole="admin"><AdminPedidos /></ProtectedRoute>} />
+          <Route path="/app/admin/produccion" element={<ProtectedRoute requiredRole="admin"><AdminProduccion /></ProtectedRoute>} />
+          <Route path="/app/admin/entregas" element={<ProtectedRoute requiredRole="admin"><AdminEntregas /></ProtectedRoute>} />
+          <Route path="/app/admin/stock" element={<ProtectedRoute requiredRole="admin"><AdminStock /></ProtectedRoute>} />
+          <Route path="/app/admin/facturacion" element={<ProtectedRoute requiredRole="admin"><AdminFacturacion /></ProtectedRoute>} />
+          <Route path="/app/admin/catalogo" element={<ProtectedRoute requiredRole="admin"><AdminCatalogo /></ProtectedRoute>} />
 
           {/* Catch all - redirect to login */}
           <Route path="/" element={<Navigate to="/login" replace />} />
