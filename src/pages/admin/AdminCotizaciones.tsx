@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ShieldCheck, LogOut, Calculator, Users, FileText, ClipboardList, DollarSign, Wrench } from 'lucide-react';
+import { ShieldCheck, LogOut, Calculator, Users, FileText, ClipboardList, DollarSign, Wrench, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import PreciosTab from '../../components/PreciosTab';
@@ -60,13 +60,22 @@ export function AdminCotizaciones() {
                 {user.NOMBRE} · {user.ROL === 'ADMIN' ? 'Administrador' : 'Vendedor'}
               </p>
             </div>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-slate-800/50 border border-slate-600/50 rounded-full hover:bg-slate-700/50 hover:border-slate-500/50 transition-all duration-200"
-            >
-              <LogOut className="w-4 h-4" />
-              Cerrar sesión
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => navigate('/app/admin')}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-slate-800/50 border border-slate-600/50 rounded-full hover:bg-slate-700/50 hover:border-slate-500/50 transition-all duration-200"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Volver al Dashboard
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-slate-800/50 border border-slate-600/50 rounded-full hover:bg-slate-700/50 hover:border-slate-500/50 transition-all duration-200"
+              >
+                <LogOut className="w-4 h-4" />
+                Cerrar sesión
+              </button>
+            </div>
           </div>
 
           {/* Tabs */}
