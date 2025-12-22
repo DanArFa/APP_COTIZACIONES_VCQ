@@ -3,7 +3,7 @@ export interface User {
   USUARIO: string;
   CONTRASENA: string;
   NOMBRE: string;
-  ROL: 'ADMIN' | 'VENT';
+  ROL: 'ADMIN' | 'VENT' | 'CLIENTE';
   ACTIVO: 'SI' | 'NO';
 }
 

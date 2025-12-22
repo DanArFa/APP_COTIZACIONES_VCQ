@@ -1,5 +1,6 @@
 import { LayoutAdmin } from '../../layouts/LayoutAdmin';
 import { BarChart3, Clock, Zap, TrendingUp } from 'lucide-react';
+import UsuariosTab from '../../components/UsuariosTab';
 
 export function AdminDashboard() {
   const kpis = [
@@ -59,6 +60,11 @@ export function AdminDashboard() {
               <p className="text-xs text-slate-500 mt-2">TODO: Conectar con BD</p>
             </div>
           </div>
+        </div>
+
+        {/* Usuarios */}
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl p-6 border border-slate-700/50">
+          <UsuariosTab />
         </div>
       </div>
     </LayoutAdmin>

@@ -11,7 +11,7 @@ export default function UsuariosTab() {
     USUARIO: '',
     NOMBRE: '',
     CONTRASENA: '',
-    ROL: 'VENDEDOR' as const,
+    ROL: 'VENT' as const,
     ACTIVO: 'SI' as const,
   });
   const [submitting, setSubmitting] = useState(false);
@@ -21,7 +21,7 @@ export default function UsuariosTab() {
     USUARIO: '',
     NOMBRE: '',
     CONTRASENA: '',
-    ROL: 'VENDEDOR' as const,
+    ROL: 'VENT' as const,
     ACTIVO: 'SI' as const,
   });
 
@@ -49,7 +49,7 @@ export default function UsuariosTab() {
 
     if (newUser) {
       setMessage({ type: 'success', text: 'Usuario creado exitosamente' });
-      setFormData({ USUARIO: '', NOMBRE: '', CONTRASENA: '', ROL: 'VENDEDOR', ACTIVO: 'SI' });
+      setFormData({ USUARIO: '', NOMBRE: '', CONTRASENA: '', ROL: 'VENT', ACTIVO: 'SI' });
       setShowForm(false);
       loadUsuarios();
     } else {
@@ -165,11 +165,12 @@ export default function UsuariosTab() {
                 </label>
                 <select
                   value={formData.ROL}
-                  onChange={(e) => setFormData({ ...formData, ROL: e.target.value as 'ADMIN' | 'VENDEDOR' })}
+                  onChange={(e) => setFormData({ ...formData, ROL: e.target.value as 'ADMIN' | 'VENT' | 'CLIENTE' })}
                   className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
                 >
-                  <option value="VENDEDOR">Vendedor</option>
+                  <option value="VENT">Vendedor</option>
                   <option value="ADMIN">Administrador</option>
+                  <option value="CLIENTE">Cliente</option>
                 </select>
               </div>
             </div>
@@ -228,10 +229,12 @@ export default function UsuariosTab() {
                       className={`inline-flex px-2.5 py-1 text-xs font-medium rounded-full ${
                         usuario.ROL === 'ADMIN'
                           ? 'bg-cyan-500/10 border border-cyan-500/30 text-cyan-400'
+                          : usuario.ROL === 'CLIENTE'
+                          ? 'bg-green-500/10 border border-green-500/30 text-green-400'
                           : 'bg-slate-700/30 border border-slate-600/30 text-slate-400'
                       }`}
                     >
-                      {usuario.ROL === 'ADMIN' ? 'Administrador' : 'Vendedor'}
+                      {usuario.ROL === 'ADMIN' ? 'Administrador' : usuario.ROL === 'CLIENTE' ? 'Cliente' : 'Vendedor'}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-center">
@@ -326,11 +329,12 @@ export default function UsuariosTab() {
                   </label>
                   <select
                     value={editFormData.ROL}
-                    onChange={(e) => setEditFormData({ ...editFormData, ROL: e.target.value as 'ADMIN' | 'VENDEDOR' })}
+                    onChange={(e) => setEditFormData({ ...editFormData, ROL: e.target.value as 'ADMIN' | 'VENT' | 'CLIENTE' })}
                     className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
                   >
-                    <option value="VENDEDOR">Vendedor</option>
+                    <option value="VENT">Vendedor</option>
                     <option value="ADMIN">Administrador</option>
+                    <option value="CLIENTE">Cliente</option>
                   </select>
                 </div>
 

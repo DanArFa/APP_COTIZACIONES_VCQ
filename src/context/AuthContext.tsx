@@ -53,7 +53,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const getRolType = (): 'cliente' | 'admin' | 'unknown' => {
     if (!user) return 'unknown';
     if (user.ROL === 'ADMIN') return 'admin';
-    if (user.ROL === 'VENT') return 'cliente';
+    if (user.ROL === 'VENT' || user.ROL === 'CLIENTE') return 'cliente';
     return 'unknown';
   };
 
