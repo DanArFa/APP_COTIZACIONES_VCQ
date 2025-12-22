@@ -112,31 +112,44 @@ export default function ClienteFigurasPedido({ onPiezasChange }: ClienteFigurasP
       </div>
 
       {figuras.length === 0 ? (
-        <div className="text-center py-8 text-slate-400 bg-slate-900/50 rounded-xl border border-slate-700">
-          No hay figuras estándar disponibles
+        <div className="text-center py-12 text-slate-400 bg-gradient-to-br from-slate-900/50 to-slate-800/50 rounded-xl border border-slate-700">
+          <div className="p-4 rounded-lg bg-slate-800/50 inline-block mb-3 mx-auto">
+            <svg className="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+            </svg>
+          </div>
+          <p className="font-medium text-slate-300 mb-1">Sin figuras disponibles</p>
+          <p className="text-sm text-slate-500">Contacta a administración para crear figuras estándar</p>
         </div>
       ) : (
         <div className="space-y-6">
           {!selectedFigura ? (
             <div>
-              <h4 className="text-lg font-semibold text-slate-100 mb-4">Selecciona una Figura</h4>
+              <h4 className="text-lg font-semibold text-slate-100 mb-5">Elige una Figura Estándar</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {figuras.map((figura) => (
                   <button
                     key={figura.id}
                     onClick={() => handleSelectFigura(figura)}
-                    className="text-left p-4 bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700 rounded-lg hover:border-cyan-500/50 transition-all hover:shadow-lg hover:shadow-cyan-500/10"
+                    className="text-left p-5 bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-700/50 rounded-xl hover:border-cyan-500/50 hover:from-slate-800/80 hover:to-slate-900/80 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/20 group"
                   >
-                    <h5 className="font-semibold text-slate-100">{figura.nombre}</h5>
-                    <p className="text-xs text-slate-500 capitalize mt-1">{figura.tipo_figura}</p>
+                    <div className="flex items-start justify-between mb-3">
+                      <h5 className="font-semibold text-slate-100 group-hover:text-cyan-300 transition-colors">{figura.nombre}</h5>
+                      <div className="p-2 rounded-lg bg-slate-700/50 group-hover:bg-cyan-500/20 transition-colors">
+                        <svg className="w-4 h-4 text-slate-400 group-hover:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-500 capitalize mb-2">{figura.tipo_figura}</p>
                     {figura.descripcion && (
-                      <p className="text-xs text-slate-400 mt-2">{figura.descripcion}</p>
+                      <p className="text-xs text-slate-400 mb-3 line-clamp-2">{figura.descripcion}</p>
                     )}
-                    <div className="mt-3 space-y-1">
+                    <div className="mt-4 pt-4 border-t border-slate-700/50 space-y-1">
                       {figura.campos_medida.map((campo, idx) => (
                         <div key={idx} className="flex items-center justify-between text-xs">
-                          <span className="text-slate-400 capitalize">{campo.nombre}:</span>
-                          <span className="text-slate-300">{campo.valor_default} {campo.unidad}</span>
+                          <span className="text-slate-400 capitalize">{campo.nombre}</span>
+                          <span className="font-medium text-slate-200">{campo.valor_default} {campo.unidad}</span>
                         </div>
                       ))}
                     </div>
