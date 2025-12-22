@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Save, FileDown, Plus, X, ChevronDown, ChevronUp, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Save, FileDown, Plus, X, ChevronDown, ChevronUp, Trash2, ArrowLeft } from 'lucide-react';
 import jsPDF from 'jspdf';
 import { User, ProcesoDetalle, Pieza } from '../types';
 import { PRECIOS, PROCESOS } from '../data';
@@ -21,6 +22,7 @@ interface PiezaTemp extends Pieza {
 }
 
 export default function CotizadorTab({ currentUser }: CotizadorTabProps) {
+  const navigate = useNavigate();
   const [cliente, setCliente] = useState('');
   const [clientes, setClientes] = useState<Array<{ ID_CLIENTE: string; NOMBRE: string }>>([]);
   const [modoCliente, setModoCliente] = useState<'seleccionar' | 'nuevo'>('seleccionar');
@@ -389,6 +391,14 @@ export default function CotizadorTab({ currentUser }: CotizadorTabProps) {
 
   return (
     <div className="space-y-6">
+      <button
+        onClick={() => navigate('/app/admin')}
+        className="flex items-center gap-2 px-4 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800/50 rounded-lg transition-all"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Regresar
+      </button>
+
       <div>
         <h2 className="text-2xl font-bold text-slate-100 mb-1">Cotizador Principal</h2>
         <p className="text-sm text-slate-400">

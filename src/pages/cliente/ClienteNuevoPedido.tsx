@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LayoutCliente } from '../../layouts/LayoutCliente';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, ArrowLeft } from 'lucide-react';
 
 interface PedidoForm {
   tipoVidrio: string;
@@ -14,6 +15,7 @@ interface PedidoForm {
 }
 
 export function ClienteNuevoPedido() {
+  const navigate = useNavigate();
   const [form, setForm] = useState<PedidoForm>({
     tipoVidrio: 'claro',
     medidas: { alto: 100, ancho: 100 },
@@ -38,6 +40,14 @@ export function ClienteNuevoPedido() {
   return (
     <LayoutCliente activeTab="nuevo">
       <div className="max-w-2xl mx-auto space-y-6">
+        <button
+          onClick={() => navigate('/app/cliente')}
+          className="flex items-center gap-2 px-4 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800/50 rounded-lg transition-all mb-2"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Regresar
+        </button>
+
         <div>
           <h2 className="text-3xl font-bold text-slate-100">Crear Nuevo Pedido</h2>
           <p className="text-slate-400 mt-1">Completa los datos para solicitar tu pedido</p>
