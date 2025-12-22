@@ -1,7 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LayoutCliente } from '../../layouts/LayoutCliente';
+import ClienteFigurasPedido from '../../components/ClienteFigurasPedido';
 import { Plus, X, ArrowLeft } from 'lucide-react';
+
+interface PiezaPersonalizada {
+  figura_id: string;
+  figura_nombre: string;
+  tipo_figura: string;
+  campos: Array<{ nombre: string; valor: number; unidad?: string }>;
+  cantidad: number;
+}
 
 interface PedidoForm {
   tipoVidrio: string;
@@ -12,6 +21,7 @@ interface PedidoForm {
   cantidad: number;
   notas: string;
   direccionEntrega: string;
+  piezas: PiezaPersonalizada[];
 }
 
 export function ClienteNuevoPedido() {
@@ -22,6 +32,7 @@ export function ClienteNuevoPedido() {
     cantidad: 1,
     notas: '',
     direccionEntrega: '',
+    piezas: [],
   });
   const [submitted, setSubmitted] = useState(false);
 
@@ -39,7 +50,7 @@ export function ClienteNuevoPedido() {
 
   return (
     <LayoutCliente activeTab="nuevo">
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="max-w-6xl mx-auto space-y-6">
         <button
           onClick={() => navigate('/app/cliente')}
           className="flex items-center gap-2 px-4 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800/50 rounded-lg transition-all mb-2"
@@ -50,7 +61,7 @@ export function ClienteNuevoPedido() {
 
         <div>
           <h2 className="text-3xl font-bold text-slate-100">Crear Nuevo Pedido</h2>
-          <p className="text-slate-400 mt-1">Completa los datos para solicitar tu pedido</p>
+          <p className="text-slate-400 mt-1">Crea tu pedido seleccionando y personalizando figuras de vidrio</p>
         </div>
 
         {submitted && (
@@ -65,7 +76,16 @@ export function ClienteNuevoPedido() {
           </div>
         )}
 
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-8 border border-slate-700/50">
+          <ClienteFigurasPedido onPiezasChange={(piezas) => setForm({ ...form, piezas })} />
+        </div>
+
         <form onSubmit={handleSubmit} className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-8 border border-slate-700/50 space-y-6">
+          <div>
+            <h3 className="text-xl font-semibold text-slate-100 mb-2">Información Adicional del Pedido</h3>
+            <p className="text-sm text-slate-400">Completa los detalles de tu pedido</p>
+          </div>
+
           {/* Tipo de Vidrio */}
           <div>
             <label className="block text-sm font-semibold text-slate-300 mb-2">

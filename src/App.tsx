@@ -10,6 +10,7 @@ import { ClienteDocumentos } from './pages/cliente/ClienteDocumentos';
 
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminCotizaciones } from './pages/admin/AdminCotizaciones';
+import { AdminFiguras } from './pages/admin/AdminFiguras';
 import { AdminPedidos } from './pages/admin/AdminPedidos';
 import { AdminProduccion } from './pages/admin/AdminProduccion';
 import { AdminEntregas } from './pages/admin/AdminEntregas';
@@ -32,6 +33,7 @@ function App() {
 
           <Route path="/app/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           <Route path="/app/admin/cotizaciones" element={<ProtectedRoute><AdminCotizaciones /></ProtectedRoute>} />
+          <Route path="/app/admin/figuras" element={<ProtectedRoute><AdminFiguras /></ProtectedRoute>} />
           <Route path="/app/admin/pedidos" element={<ProtectedRoute><AdminPedidos /></ProtectedRoute>} />
           <Route path="/app/admin/produccion" element={<ProtectedRoute><AdminProduccion /></ProtectedRoute>} />
           <Route path="/app/admin/entregas" element={<ProtectedRoute><AdminEntregas /></ProtectedRoute>} />

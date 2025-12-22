@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Menu, X, BarChart3, Calculator, ClipboardList, Truck, Package, DollarSign, Database } from 'lucide-react';
+import { LogOut, Menu, X, BarChart3, Calculator, ClipboardList, Truck, Package, DollarSign, Database, Layers } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 interface LayoutAdminProps {
@@ -21,6 +21,7 @@ export function LayoutAdmin({ children, activeTab }: LayoutAdminProps) {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3, path: '/app/admin' },
     { id: 'cotizaciones', label: 'Cotizaciones', icon: Calculator, path: '/app/admin/cotizaciones' },
+    { id: 'figuras', label: 'Figuras', icon: Layers, path: '/app/admin/figuras' },
     { id: 'pedidos', label: 'Pedidos', icon: ClipboardList, path: '/app/admin/pedidos' },
     { id: 'produccion', label: 'Producción', icon: Package, path: '/app/admin/produccion' },
     { id: 'entregas', label: 'Entregas', icon: Truck, path: '/app/admin/entregas' },
