@@ -67,6 +67,8 @@ export async function deleteUsuario(id: number): Promise<boolean> {
 }
 
 export async function loginUsuario(usuario: string, contrasena: string): Promise<User | null> {
+  console.log('Intentando login con:', { usuario, contrasena });
+
   const { data, error } = await supabase
     .from('Usuarios')
     .select('*')
@@ -74,6 +76,8 @@ export async function loginUsuario(usuario: string, contrasena: string): Promise
     .eq('CONTRASENA', contrasena)
     .eq('ACTIVO', 'SI')
     .maybeSingle();
+
+  console.log('Respuesta login:', { data, error });
 
   if (error) {
     console.error('Error login:', error);
