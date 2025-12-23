@@ -36,7 +36,7 @@ export function TopNavigation() {
 
   return (
     <div className="glass-panel backdrop-blur-2xl border-b border-white/10 sticky top-0 z-40">
-      <div className="px-3 sm:px-4 py-4 flex items-center justify-between gap-2 sm:gap-4">
+      <div className="px-3 sm:px-4 py-4 flex items-center justify-between gap-2 sm:gap-4 relative">
         {/* Logo */}
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <div className="w-10 h-10 rounded-xl bg-glass-cyan/20 backdrop-blur-sm flex items-center justify-center shadow-glow-cyan border border-glass-cyan/30">
@@ -73,61 +73,61 @@ export function TopNavigation() {
               </button>
             );
           })}
-
-          {/* More Dropdown */}
-          <div className="relative flex-shrink-0">
-            <button
-              onClick={() => setMoreOpen(!moreOpen)}
-              className={`
-                flex items-center gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl font-medium
-                transition-all duration-300 group whitespace-nowrap
-                ${moreOpen
-                  ? 'bg-glass-cyan/15 border border-glass-cyan/40 text-glass-cyan shadow-glow-cyan'
-                  : 'text-glass-frost/60 hover:text-glass-frost hover:bg-white/5 border border-transparent hover:border-glass-cyan/20'
-                }
-              `}
-              title="Más opciones"
-            >
-              <MoreHorizontal className="w-4 h-4 transition-transform group-hover:scale-110 flex-shrink-0" />
-              <span className="text-xs sm:text-sm hidden sm:inline">Más</span>
-              <ChevronDown className={`w-4 h-4 transition-transform hidden sm:block flex-shrink-0 ${moreOpen ? 'rotate-180' : ''}`} />
-            </button>
-
-            {/* Dropdown Menu */}
-            {moreOpen && (
-              <div className="absolute top-full right-0 mt-2 w-48 sm:w-56 liquid-glass rounded-2xl border border-white/10 shadow-glass-lg overflow-hidden animate-scale-in">
-                <div className="p-2 space-y-1">
-                  {moreItems.map(item => {
-                    const Icon = item.icon;
-                    const active = isActive(item.path);
-
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => {
-                          navigate(item.path);
-                          setMoreOpen(false);
-                        }}
-                        className={`
-                          w-full flex items-center gap-3 px-3 sm:px-4 py-2.5 rounded-lg font-medium text-xs sm:text-sm
-                          transition-all duration-200
-                          ${active
-                            ? 'bg-glass-cyan/15 border border-glass-cyan/40 text-glass-cyan'
-                            : 'text-glass-frost/60 hover:text-glass-frost hover:bg-white/5 border border-transparent'
-                          }
-                        `}
-                      >
-                        <Icon className="w-4 h-4 flex-shrink-0" />
-                        <span className="flex-1 text-left">{item.label}</span>
-                        {active && <div className="w-2 h-2 rounded-full bg-glass-cyan shadow-glow-cyan flex-shrink-0" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
         </nav>
+
+        {/* More Button */}
+        <div className="relative flex-shrink-0">
+          <button
+            onClick={() => setMoreOpen(!moreOpen)}
+            className={`
+              flex items-center gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl font-medium
+              transition-all duration-300 group whitespace-nowrap
+              ${moreOpen
+                ? 'bg-glass-cyan/15 border border-glass-cyan/40 text-glass-cyan shadow-glow-cyan'
+                : 'text-glass-frost/60 hover:text-glass-frost hover:bg-white/5 border border-transparent hover:border-glass-cyan/20'
+              }
+            `}
+            title="Más opciones"
+          >
+            <MoreHorizontal className="w-4 h-4 transition-transform group-hover:scale-110 flex-shrink-0" />
+            <span className="text-xs sm:text-sm hidden sm:inline">Más</span>
+            <ChevronDown className={`w-4 h-4 transition-transform hidden sm:block flex-shrink-0 ${moreOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {/* Dropdown Menu */}
+          {moreOpen && (
+            <div className="absolute top-full right-0 mt-2 w-48 sm:w-56 liquid-glass rounded-2xl border border-white/10 shadow-glass-lg overflow-hidden animate-scale-in z-50">
+              <div className="p-2 space-y-1">
+                {moreItems.map(item => {
+                  const Icon = item.icon;
+                  const active = isActive(item.path);
+
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        navigate(item.path);
+                        setMoreOpen(false);
+                      }}
+                      className={`
+                        w-full flex items-center gap-3 px-3 sm:px-4 py-2.5 rounded-lg font-medium text-xs sm:text-sm
+                        transition-all duration-200
+                        ${active
+                          ? 'bg-glass-cyan/15 border border-glass-cyan/40 text-glass-cyan'
+                          : 'text-glass-frost/60 hover:text-glass-frost hover:bg-white/5 border border-transparent'
+                        }
+                      `}
+                    >
+                      <Icon className="w-4 h-4 flex-shrink-0" />
+                      <span className="flex-1 text-left">{item.label}</span>
+                      {active && <div className="w-2 h-2 rounded-full bg-glass-cyan shadow-glow-cyan flex-shrink-0" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* User & Logout */}
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
