@@ -45,7 +45,7 @@ export default function LoginView({ onLogin }: LoginViewProps) {
           <form onSubmit={handleSubmit} className="space-y-6">
             <PremiumInput
               label="Usuario"
-              placeholder="dan_arellano"
+              placeholder="Usuario"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               icon={<Mail className="w-5 h-5" />}
