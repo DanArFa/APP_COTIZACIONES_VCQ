@@ -21,29 +21,36 @@ export default function LoginView({ onLogin }: LoginViewProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-8 border border-slate-700/50 shadow-2xl backdrop-blur-sm">
-          <h1 className="text-2xl font-bold text-slate-100 mb-6">
-            Cotizador VCQ
-          </h1>
+    <div className="min-h-screen bg-glass-obsidian flex items-center justify-center p-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-glass-cyan/5 via-transparent to-glass-cyan/5" />
+      <div className="absolute top-20 left-20 w-96 h-96 bg-glass-cyan/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-glass-cyan/10 rounded-full blur-3xl" />
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="w-full max-w-md relative z-10">
+        <div className="liquid-glass rounded-3xl p-8">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-light text-glass-frost mb-2 tracking-wide">
+              Cotizador VCQ
+            </h1>
+            <div className="h-px w-16 mx-auto bg-gradient-to-r from-transparent via-glass-cyan to-transparent" />
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-xs font-medium text-glass-frost/60 mb-2 uppercase tracking-wider">
                 Usuario
               </label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Usuario"
-                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                placeholder="Ingresa tu usuario"
+                className="glass-input w-full px-4 py-3 rounded-xl"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-xs font-medium text-glass-frost/60 mb-2 uppercase tracking-wider">
                 Contraseña
               </label>
               <input
@@ -51,20 +58,22 @@ export default function LoginView({ onLogin }: LoginViewProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                className="glass-input w-full px-4 py-3 rounded-xl"
               />
             </div>
 
             {error && (
-              <p className="text-sm text-red-400">{error}</p>
+              <div className="glass-panel px-4 py-3 rounded-lg border-red-500/30 bg-red-500/10">
+                <p className="text-sm text-red-400">{error}</p>
+              </div>
             )}
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-green-500 text-slate-950 font-semibold rounded-xl hover:from-cyan-400 hover:to-green-400 transition-all duration-200 shadow-lg shadow-cyan-500/20"
+              className="glass-button-primary w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl"
             >
               <LogIn className="w-5 h-5" />
-              Entrar
+              <span>Entrar</span>
             </button>
           </form>
         </div>

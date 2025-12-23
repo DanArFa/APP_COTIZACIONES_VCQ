@@ -13,15 +13,16 @@ export default function LoadingSpinner({ size = 'md', text }: LoadingSpinnerProp
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className={`${sizes[size]} relative`}>
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-green-500 rounded-full blur opacity-75 animate-pulse"></div>
-        <div className={`${sizes[size]} bg-slate-900 rounded-full animate-spin`} style={{
-          borderTop: '2px solid rgba(6, 182, 212, 0.5)',
-          borderRight: '2px solid rgba(34, 197, 94, 0.5)',
-          borderBottom: '2px solid rgba(6, 182, 212, 0.2)',
-          borderLeft: '2px solid rgba(34, 197, 94, 0.2)',
+        <div className="absolute inset-0 bg-glass-cyan/30 rounded-full blur-lg animate-pulse"></div>
+        <div className={`${sizes[size]} rounded-full animate-spin`} style={{
+          background: 'rgba(255, 255, 255, 0.05)',
+          borderTop: '3px solid rgba(0, 209, 255, 0.8)',
+          borderRight: '3px solid rgba(0, 209, 255, 0.3)',
+          borderBottom: '3px solid rgba(0, 209, 255, 0.1)',
+          borderLeft: '3px solid rgba(0, 209, 255, 0.3)',
         }}></div>
       </div>
-      {text && <p className="text-slate-400 text-sm">{text}</p>}
+      {text && <p className="text-glass-frost/60 text-sm tracking-wide">{text}</p>}
     </div>
   );
 }

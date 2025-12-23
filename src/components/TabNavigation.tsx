@@ -23,7 +23,7 @@ export default function TabNavigation({
   variant = 'pills',
 }: TabNavigationProps) {
   return (
-    <div className={`flex flex-wrap gap-2 ${variant === 'underline' ? 'border-b border-slate-700/50 pb-4' : ''}`}>
+    <div className={`flex flex-wrap gap-2 ${variant === 'underline' ? 'border-b border-white/10 pb-4' : ''}`}>
       {tabs.map(tab => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
@@ -35,24 +35,24 @@ export default function TabNavigation({
             onClick={() => !isDisabled && onChange(tab.id)}
             disabled={isDisabled}
             className={`
-              flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200
-              group relative
-              ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+              flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all duration-300
+              group relative backdrop-blur-sm
+              ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
               ${isActive
-                ? 'bg-gradient-to-r from-cyan-500/20 to-green-500/10 border border-cyan-500/50 text-cyan-300 shadow-lg shadow-cyan-500/10'
-                : 'bg-slate-800/30 border border-slate-700/30 text-slate-400 hover:bg-slate-700/40 hover:border-slate-600/40 hover:text-slate-300'
+                ? 'bg-glass-cyan/15 border border-glass-cyan/40 text-glass-cyan shadow-glow-cyan'
+                : 'bg-white/5 border border-white/10 text-glass-frost/60 hover:bg-white/10 hover:border-glass-cyan/20 hover:text-glass-frost'
               }
             `}
             title={tab.description}
           >
             <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <span className="text-sm">{tab.label}</span>
+            <span className="text-sm tracking-wide">{tab.label}</span>
             {tab.badge && (
               <span className={`
-                ml-1 px-2 py-0.5 rounded-full text-xs font-bold
+                ml-1 px-2 py-0.5 rounded-full text-xs font-semibold
                 ${isActive
-                  ? 'bg-cyan-500/40 text-cyan-200'
-                  : 'bg-slate-700/50 text-slate-300'
+                  ? 'bg-glass-cyan/30 text-glass-cyan'
+                  : 'bg-white/10 text-glass-frost/70'
                 }
               `}>
                 {tab.badge}

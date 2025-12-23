@@ -15,15 +15,15 @@ interface EmptyStateProps {
 export default function EmptyState({ icon: Icon, title, description, action, children }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-      <div className="mb-6 p-4 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-green-500/10 border border-cyan-500/20">
-        <Icon className="w-12 h-12 text-cyan-400" />
+      <div className="mb-6 p-5 rounded-2xl liquid-glass border border-glass-cyan/20">
+        <Icon className="w-12 h-12 text-glass-cyan" />
       </div>
-      <h3 className="text-xl font-semibold text-slate-100 mb-2">{title}</h3>
-      <p className="text-slate-400 max-w-sm mb-6">{description}</p>
+      <h3 className="text-xl font-light text-glass-frost mb-2 tracking-wide">{title}</h3>
+      <p className="text-glass-frost/50 max-w-sm mb-6 text-sm">{description}</p>
       {action && (
         <button
           onClick={action.onClick}
-          className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-green-500 text-slate-950 font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/20 transition-all"
+          className="glass-button-primary px-6 py-3 rounded-xl"
         >
           {action.label}
         </button>
