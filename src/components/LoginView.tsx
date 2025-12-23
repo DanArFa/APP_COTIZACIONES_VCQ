@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { LogIn } from 'lucide-react';
+import { LogIn, Mail, Lock } from 'lucide-react';
+import PremiumInput from './PremiumInput';
+import Button from './Button';
 
 interface LoginViewProps {
   onLogin: (username: string, password: string) => Promise<boolean>;
@@ -9,15 +11,20 @@ export default function LoginView({ onLogin }: LoginViewProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
+
     const success = await onLogin(username.trim(), password.trim());
 
     if (!success) {
       setError('Usuario o contraseña incorrectos');
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -36,45 +43,44 @@ export default function LoginView({ onLogin }: LoginViewProps) {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-xs font-medium text-glass-frost/60 mb-2 uppercase tracking-wider">
-                Usuario
-              </label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Ingresa tu usuario"
-                className="glass-input w-full px-4 py-3 rounded-xl"
-              />
-            </div>
+            <PremiumInput
+              label="Usuario"
+              placeholder="dan_arellano"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              icon={<Mail className="w-5 h-5" />}
+              disabled={isLoading}
+            />
 
-            <div>
-              <label className="block text-xs font-medium text-glass-frost/60 mb-2 uppercase tracking-wider">
-                Contraseña
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="glass-input w-full px-4 py-3 rounded-xl"
-              />
-            </div>
+            <PremiumInput
+              label="Contraseña"
+              placeholder="Contraseña"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              icon={<Lock className="w-5 h-5" />}
+              disabled={isLoading}
+            />
 
             {error && (
-              <div className="glass-panel px-4 py-3 rounded-lg border-red-500/30 bg-red-500/10">
-                <p className="text-sm text-red-400">{error}</p>
+              <div className="glass-panel px-4 py-3 rounded-lg border-rose-500/30 bg-rose-500/10 animate-fade-in-up">
+                <p className="text-sm text-rose-400 flex items-center gap-2">
+                  <span className="text-lg">⚠</span>
+                  {error}
+                </p>
               </div>
             )}
 
-            <button
+            <Button
               type="submit"
-              className="glass-button-primary w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl"
+              variant="primary"
+              size="lg"
+              fullWidth
+              loading={isLoading}
+              icon={<LogIn className="w-5 h-5" />}
             >
-              <LogIn className="w-5 h-5" />
-              <span>Entrar</span>
-            </button>
+              Entrar a VCQ
+            </Button>
           </form>
         </div>
       </div>
