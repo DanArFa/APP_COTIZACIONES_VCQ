@@ -132,8 +132,7 @@ export function TopNavigation() {
         {/* User & Logout */}
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <div className="hidden md:block text-right">
-            <p className="text-xs text-glass-frost/50 font-semibold uppercase tracking-wider">Usuario</p>
-            <p className="text-xs sm:text-sm font-medium text-glass-frost">{user?.NOMBRE}</p>
+            <p className="text-xs sm:text-sm font-medium text-glass-frost">Usuario</p>
           </div>
           <button
             onClick={handleLogout}
